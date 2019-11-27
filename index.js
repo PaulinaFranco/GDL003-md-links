@@ -4,30 +4,29 @@ const fs = require('fs');
 const process = require('process');
 const path = require('path');
 const https = require('https');
+const util =  require('util');
 const chalk = require('chalk');
 
 
 // 1.- identifying path
 // to-do: agregar opción para archivos
-// to-do: probar con módulo readline
+
 let pathToCheck = process.argv[2];
+
 let consoleLine = process.argv;
 
-let activateValidate = consoleLine.includes('--validate') ? console.log('sípumita') : console.log('nopancho');
-let activateStats = consoleLine.includes('--stats') ? console.log('síp') : console.log('nop');
-let checkExtName = consoleLine.includes((path.extname() === '.md');
+const options = {}
+  let activateValidate = consoleLine.includes('--validate') ? options.activateValidate = true : options.activateValidate = false;
+  let activateStats = consoleLine.includes('--stats') ? options.activateStats = true : options.activateStats = false;
 
-
-let identifyMD = path.extname(pathToCheck) === ".md";
-
-
+console.log(options.activateStats);
+//let checkExtName = consoleLine.includes((path.extname() === '.md');
 
 // 2.- identifying if there is an .md file
     // to-do CAMBIAR A TERNARIO, ESPECIFICAR DEVOLUCIÓN DE ERROR PARA ARCHIVOS NO .MD
-//let identifyMD = path.extname(pathToCheck) === ".md" ? readFile() : messageErr;
-// console.log(identifyMD);
+let identifyMD = path.extname(pathToCheck) === ".md";
+console.log(identifyMD);
 
-//to-do agregar función para que solo los archivos -md pasen a readFile
 
 // 3.- Reading a .md file and finding links
 
@@ -37,32 +36,34 @@ let collectorOfUrls = [];
 
 
     //3.2.- Reading .md files in pathToCheck
+
 const readFile = fs.readFile(pathToCheck, 'utf8', (err, data) => {
   if (err) throw err;
     // 3.1.- Iterating on .md file(s) to find links
   let urlsInMd = [];
       while ((listOfUrls = urlRegExp.exec(data)) !== null) {
         collectorOfUrls += listOfUrls[0] + " ";
-        console.log(`Found url ${listOfUrls[0]} in the file ${pathToCheck}`);
-      };
+        let ss = console.log((chalk.magentaBright`${listOfUrls[0]}`) + (chalk.cyanBright ` in file `) + `${pathToCheck}`);
+  };
 });
 
 
-
 /*
-function mdLinksOptions(rawArgs) {
-  const args = arg(
-    {
-      '--validate': Boolean,
-      '--stats': Boolean,
-    },
-    {
-      argv: rawArgs.slice(3),
-    }
-  );
-return {
-  validateLinks: args['--validate'] || true,
-  statsOfLinksArray:  args['--stats'] || true,
-};
-}
+let req = new Promise((resolve, reject) => {
+      const restt = https.get(url, fun+
+});
+*/
+/*
+
+let promisifyGet = util.promisify(https.get);
+let reqUrl = https.get(url, (res) => {
+  console.log(res.statusCode);
+//let status = (res.statusText).toString();
+    });
+
+reqUrl.on('error', (e) => {
+  console.error(e);
+});
+
+console.log(reqUrl.statusCode);
 */
